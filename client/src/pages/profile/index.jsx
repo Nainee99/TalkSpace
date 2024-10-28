@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import apiClient from "@/lib/apiClient";
 import {
   ADD_PROFILE_IMAGE_ROUTE,
+  REMOVE_PROFILE_IMAGE_ROUTE,
   UPDATE_PROFILE_ROUTE,
 } from "@/utils/constants";
 
@@ -125,7 +126,19 @@ const Profile = () => {
   };
 
   const handleDeleteImage = async () => {
-    // Your logic for deleting the image goes here
+    try {
+      const response = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        setUserInfo({ ...userInfo, image: null });
+        setImage(null);
+        toast.success("Image deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      toast.error("Failed to delete image");
+    }
   };
 
   return (

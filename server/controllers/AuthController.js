@@ -2,7 +2,8 @@ import pkg from "jsonwebtoken";
 const { sign } = pkg;
 import { compare } from "bcrypt";
 import User from "../models/UserModel.js";
-import { existsSync, mkdirSync, renameSync } from "fs";
+import { existsSync, mkdirSync, renameSync, unlinkSync } from "fs";
+import path from "path";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
 
@@ -219,9 +220,31 @@ export const addProfileImage = async (req, res, next) => {
 
 export const deleteProfileImage = async (req, res, next) => {
   try {
+    const { userId } = req; // Ensure userId is set correctly
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if user has a profile image
+    if (!user.image) {
+      return res.status(400).json({ message: "No profile image to delete" });
+    }
+
+    // Construct the full path of the image to delete
+    const imagePath = path.resolve(user.image);
+
+    // Delete the profile image
+    unlinkSync(imagePath);
+
+    user.image = null; // Remove the image reference
+    await user.save(); // Save the user document
+
+    return res.status(200).json({
+      message: "Profile image deleted successfully",
+    });
   } catch (error) {
     console.error("Error during deleteProfileImage:", error);
     res.status(500).json({ message: "Failed to delete profile image" });
-    s;
   }
 };

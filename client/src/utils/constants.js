@@ -6,5 +6,5 @@ export const LOGIN_ROUTE = `${AUTHROUTES}/login`;
 export const GET_USER_INFO = `${AUTHROUTES}/user-info`;
 export const UPDATE_PROFILE_ROUTE = `${AUTHROUTES}/update-profile`;
 export const ADD_PROFILE_IMAGE_ROUTE = `${AUTHROUTES}/add-profile-image`;
-
+export const REMOVE_PROFILE_IMAGE_ROUTE = `${AUTHROUTES}/remove-profile-image`;
 export const LOGOUT_ROUTE = `${AUTHROUTES}/logout`;
