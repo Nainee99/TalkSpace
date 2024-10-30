@@ -1,3 +1,4 @@
+import ProfileInfo from "@/pages/profile/components/profile-info";
 import React from "react";
 
 const ContactsContainer = () => {
@@ -16,6 +17,7 @@ const ContactsContainer = () => {
           <Title text="Channels" />
         </div>
       </div>
+      <ProfileInfo />
     </div>
   );
 };
